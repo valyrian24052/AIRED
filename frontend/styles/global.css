@@ -5,9 +5,9 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: black; /* Ensures the entire background is black */
-    overflow: hidden;
-    color: white; /* Default text color is white */
+    background-color: black; 
+    overflow: visible;
+    color: white; 
     box-sizing: border-box;
 }
 
