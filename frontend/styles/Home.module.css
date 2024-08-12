@@ -51,7 +51,7 @@
 }
 
 .main {
-    opacity: 0.6; 
+    opacity: 0.9; 
     position: absolute; 
     display: flex;
     flex-direction: column;
@@ -99,7 +99,6 @@
 
 .inputContainer {
     display: flex;
-    margin-top: 20px;
 }
 
 .input {

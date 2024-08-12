@@ -44,8 +44,6 @@ export default function Home() {
                 <h1 className={styles.mainTitle}>Hi, I am AIRED</h1>
                 <p className={styles.subTitle}>How can I assist you</p>
                 <div className={styles.chatContainer}>
-                    <p className={styles.chatText}>How can I assist you</p>
-                    <p className={styles.chatText}>how can i be of help today</p>
                     <div className={styles.inputContainer}>
                         <input type="text" className={styles.input} placeholder="Type your response..." />
                         <button className={styles.sendButton}>
