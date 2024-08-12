@@ -4,4 +4,5 @@ out/
 dist/
 package-lock.json
 .env
-credentials.json
+config
+_pycache_
