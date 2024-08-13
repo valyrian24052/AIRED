@@ -1,0 +1,14 @@
+{
+    "functions": {
+      "api/runpython.js": {
+        "runtime": "vercel-python@0.5.0",
+        "includeFiles": "components/requirements.txt"
+      }
+    },
+    "build": {
+      "env": {
+        "PYTHONPATH": "components"
+      }
+    }
+  }
+  
