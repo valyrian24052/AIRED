@@ -203,7 +203,7 @@
 }
 
 .toggleSwitch.active {
-    background-color: blue;
+    background-color: rgb(191, 125, 219);
 }
 
 .toggleSwitch.active::before {
