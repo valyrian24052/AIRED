@@ -4,5 +4,4 @@ out/
 dist/
 package-lock.json
 .env
-config
 _pycache_

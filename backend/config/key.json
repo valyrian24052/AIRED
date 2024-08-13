@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "elated-nectar-425613-p8",
+  "private_key_id": "8464dc7e9da2a677f4404e9ff4018ad775b4cb80",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5A1MdULrwIt0y\n0dGcus40DPo7JhANhGBVZN4qenneqWBEZ0SsBw3NBiZWlI/bvL9A0UbenUu7MIyQ\nzbIfS7IIIoDJPbhr0Pw9r9qKVEeHHjHsKVjCXjNDbuqRS9E/o3HRsSFtDwfy4eH7\nZtcE3uws4Xl/iPORoS1a5sbu5r9YiUIQX3/HimPNhNgIj5/fb7Obg1Chbw7aH/q+\nnoBSM/jX6bzJDASKaNsQtxGNbwVcXSoynEjd6s1hQB/hpCFJDEsTtf9uIKERQybP\nwF4hR5ZU09stiSOxacPO35GJ3kC+cywXKnunihY/li55VryxRaieGc9cftwqAf2d\n1MrtxUcvAgMBAAECgf8Q7P3dzmOHHc6C5ooD23sQs5I/wMT2Q6uXnsuLlXTmGiIC\nYszwpcrRXsnKD2VrbmYQznixBmT5zZxU+FdiLIbsy//pqEjWctx0LHIjdKTxdMaW\n281RzlAZ8XdXpwObVGO4iIrBqsri2RVN6pjE69taGqrAErTRkr0Cy5SBdt19hhl0\nCgSRUNe8qyTejvvmYM0lEnHUzGpt89/QNNV8E02xch3xl2dFIsNwflz84lqKe6dh\nUGEmXfYjaNVYGV5MO7UVfZ4Kb/1AAcWVXGc/ArL86y6G332vGlhha/N6ENMHs5rH\np8SdcBRI+OxWByam2WiER0zZqfvjnRTHLHApa4ECgYEA5bgK+37Mi2ra0jR8pIMq\nmK78fOo7+IerNAZ/joyYwwKhv7nu1odYZIzCBN+wrsJVP46XnAl8PAw0D2nViCWB\nEPpqe5qKocvU+J5s/aCpQg8j2YezZKbOPkEEvVjrM4jCt6HUFsT6LV5Tgsbppg8K\njLtZXianytHDvM9eLOHZcq0CgYEAzi3xvkkOHLgqNutJLct6574Rpqx2aEP5YGgI\nBzVUfwQ4Uk5/4W1UNzK7U0wl2lnBqy+eHU3bIfyObuI1YmymvC0mYktiBn08Cm7D\n/0CwWk7vGhW2L3Kwvykdil601D3hmLNJwFiMwcVKX+4MrPyGfhBQYlZjz5N0R+6H\nvWP3uMsCgYEArM/1Qxkymzc5gqUFl2UtaEtLmlVD5EV7n9m7n+tZCGs0b11atXyA\nHLRfSPdWnUGIjBWjLDlegnXTvDyr7I36OGGKNY4e+HS0tIvKBksUyaNGHuEdLXzm\n7qJPBHqeBdi+UxKk0LRCWFr7jAhDwS7Tiudt5YxC8is3ixSdDjqhMMkCgYEAwcf0\n2b+X/+4n3w4s7Vm93mmJ9XlKoJyimbWtNfktvWOd+93D24ACEw8feR6sxRhvKhHL\nLgeq2bqhtB3vxt4Pp/VXijMHosm50KRimlmWZoqht4aIgPfunvxpw09X7dNrYTXB\nL4MKaGShjqASUdPWJE34/zPrA4G3XJQYCC0Y+xkCgYEA12sPFXsL7/WnPsUDZU7z\nPQm1F9bRqEnZcjoJzrOQk6gfN4uDljSoI8ZYKRYbsbrjIee9lYT3z/vr3RhhuXw8\nzJftXQHaXM0FrStAnPD+2l68aN4ZrLPJIbD7iVqqRt4bcMumbYhbPXF0t4sXWp59\n2/QAt7jL3ud+kxYdWxfrTnU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "medocr@elated-nectar-425613-p8.iam.gserviceaccount.com",
+  "client_id": "111317360384735909034",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/medocr%40elated-nectar-425613-p8.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
