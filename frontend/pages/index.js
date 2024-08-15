@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css'; 
 import Logo from '../utils/logo.svg';
 import Send from '../utils/sendbutton.svg';
-
+import Head from 'next/head';
 export default function Home() {
     const [isActive, setIsActive] = useState(false);
     const [userInput, setUserInput] = useState('');
@@ -85,7 +85,14 @@ export default function Home() {
     };
 
     return (
+
+        
+        
         <div id="particles-js" className={styles.container}>
+            <Head>
+                <title>AIRED</title>
+                <link rel="icon" href="../utils/title.png"  type="image/png" />
+            </Head>
             <header className={styles.header}>
                 <img 
                     src={Logo} 

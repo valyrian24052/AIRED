@@ -6,6 +6,7 @@ export default function Document() {
         <Html lang="en">
             <Head>
                 <script src="/particles.js" async />
+                
             </Head>
             <body>
                 <Main />
