@@ -1,30 +1,26 @@
-import { exec } from 'child_process';
-import path from 'path';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { userInput } = req.body;
 
-        // Construct the path to the Python script
-        const pythonScriptPath = path.join(process.cwd(), 'components/model.py');
+        if (!userInput) {
+            return res.status(400).json({ error: 'User input is required' });
+        }
 
-        // Command to execute the Python script
-        const command = `python3 ${pythonScriptPath} "${userInput}"`;
+        try {
+            const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error executing Python script: ${error.message}`);
-                return res.status(500).json({ error: 'Failed to generate response from Python script' });
-            }
+            // Call the model with the user input
+            const result = await model.generateContent([userInput]);
 
-            if (stderr) {
-                console.error(`Python script stderr: ${stderr}`);
-                return res.status(500).json({ error: 'Failed to generate response from Python script' });
-            }
-
-            const responseText = stdout.trim();
-            res.status(200).json({ response: responseText });
-        });
+            // Send the result back to the user
+            res.status(200).json({ response: result.response.text() });
+        } catch (error) {
+            console.error(`Error executing AI model: ${error.message}`);
+            res.status(500).json({ error: 'Failed to generate response from AI model' });
+        }
     } else {
         res.status(405).json({ error: 'Only POST requests are allowed' });
     }

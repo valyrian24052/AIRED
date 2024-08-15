@@ -1,12 +1,14 @@
-import { Client } from "@gradio/client";
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const fs = require("fs");
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-const client = await Client.connect("Valyrian2402/PortfolioAPI");
-const result = await client.predict("/chat", { 		
-		message: "Hello!!", 		
-		system_message: "Hello!!", 		
-		max_tokens: 1, 		
-		temperature: 0.1, 		
-		top_p: 0.1, 
-});
-
-console.log(result.data);
+async function run() {
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+const result = await model.generateContent([
+"What is in this photo?",
+{inlineData: {data: Buffer.from(fs.readFileSync('path/to/image.png')).toString("base64"),
+mimeType: 'image/png'}}]
+);
+console.log(result.response.text());
+}
+run();
