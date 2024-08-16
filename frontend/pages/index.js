@@ -41,7 +41,7 @@ export default function Home() {
         // Create a payload with the conversation history and the new user input
         const payload = {
             history: [...conversation],
-            userInput: userInput
+            userInput: userInput    
         };
     
         // Add the user input to the conversation
