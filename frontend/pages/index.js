@@ -9,11 +9,10 @@ export default function Home() {
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
     
-    // Ref for scrolling to the bottom of the conversation
+    
     const conversationEndRef = useRef(null);
 
     useEffect(() => {
-        // Scroll to the bottom whenever the conversation updates
         if (conversationEndRef.current) {
             conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -96,8 +95,8 @@ export default function Home() {
     return (
         <div id="particles-js" className={styles.container}>
             <Head>
-                <title>AIRED</title>
-                <link rel="icon" href="../utils/title.png"  type="image/png" />
+                <title>Valyrian's assistant</title>
+                <link rel="icon" href="/title.svg" type="image/svg+xml" />
             </Head>
             <header className={styles.header}>
                 <img 
