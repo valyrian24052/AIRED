@@ -9,24 +9,29 @@ export default async function handler(req, res) {
         }
 
         try {
+            // Initialize the GoogleGenerativeAI client with the API key
             const genAI = new GoogleGenerativeAI(process.env.API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            // Start chat with provided history and send the user input
-            const resultStream = await model.generateContentStream(userInput);
+            // Prepare the history for the chat model
+            const formattedHistory = history.map(item => ({
+                role: item.type === 'user' ? 'user' : 'model',
+                parts: [{ text: item.text }]
+            }));
 
-            // Set headers for event-stream
-            res.setHeader('Content-Type', 'text/event-stream');
-            res.setHeader('Cache-Control', 'no-cache');
-            res.setHeader('Connection', 'keep-alive');
+            // Start the chat with the history
+            const chat = model.startChat({
+                history: formattedHistory,
+            });
 
-            for await (const chunk of resultStream.stream) {
-                const chunkText = chunk.text();
-                res.write(`data: ${chunkText}\n\n`);  // Send chunks to client
-              }
+            // Send the user's input as the next message in the conversation
+            let result = await chat.sendMessage(userInput);
 
+            // Collect the response
+            const modelResponse = await result.response.text();
 
-            res.end();
+            // Send the model's response back to the frontend
+            res.status(200).json({ response: modelResponse });
         } catch (error) {
             console.error(`Error executing AI model: ${error.message}`);
             res.status(500).json({ error: 'Failed to generate response from AI model' });

@@ -1,12 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from '../styles/Home.module.css'; 
 import Logo from '../utils/logo.svg';
 import Send from '../utils/sendbutton.svg';
 import Head from 'next/head';
+
 export default function Home() {
     const [isActive, setIsActive] = useState(false);
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
+    
+    // Ref for scrolling to the bottom of the conversation
+    const conversationEndRef = useRef(null);
+
+    useEffect(() => {
+        // Scroll to the bottom whenever the conversation updates
+        if (conversationEndRef.current) {
+            conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [conversation]);
 
     useEffect(() => {
         console.log('useEffect triggered');
@@ -38,13 +49,11 @@ export default function Home() {
     const handleSend = async () => {
         if (userInput.trim() === '') return;
     
-        // Create a payload with the conversation history and the new user input
         const payload = {
             history: [...conversation],
             userInput: userInput    
         };
     
-        // Add the user input to the conversation
         const newConversation = [...conversation, { type: 'user', text: userInput }];
     
         setConversation(newConversation);
@@ -85,9 +94,6 @@ export default function Home() {
     };
 
     return (
-
-        
-        
         <div id="particles-js" className={styles.container}>
             <Head>
                 <title>AIRED</title>
@@ -102,8 +108,8 @@ export default function Home() {
                     style={{ cursor: 'pointer' }}
                 />
                 <nav className={styles.nav}>
-                <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
-                    <a href="https://github.com/valyrian24052" className={styles.link}>Documents</a>
+                    <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
+                    <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Documents</a>
                     <a href="mailto:shashanksharma.1214@gmail.com" className={styles.link}>Connect</a>
                 </nav>
             </header>
@@ -151,9 +157,11 @@ export default function Home() {
                                     {item.text}
                                 </div>
                             ))}
+                            {/* Ref to ensure scrolling to the last message */}
+                            <div ref={conversationEndRef} />
                         </div>
                         <div className={styles.chatContainer}>
-                        <div className={styles.clickableText} onClick={() => handleTextClick('How can I assist you')}>
+                            <div className={styles.clickableText} onClick={() => handleTextClick('How can I assist you')}>
                                 How can I assist you
                             </div>
                             <div className={styles.clickableText} onClick={() => handleTextClick('How can I be of help today')}>
