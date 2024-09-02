@@ -1,9 +1,3 @@
-node_modules/
-.next/
-out/
-dist/
-package-lock.json
-config/
+node_modules
+.next
 .env
-_pycache_
-credentials.json
