@@ -20,11 +20,15 @@ export default async function handler(req, res) {
                 parts: [{ text: item.text }]
             }));
 
+            // Start the chat with the history
             const chat = model.startChat({
                 history: formattedHistory,
             });
 
-            let result = await chat.sendMessage(userInput, GENERATION_CONFIG);
+            
+            const prompt = `System: ${SYSTEM_TEXT}\nUser: ${userInput}\nAssistant:`;
+
+            let result = await chat.sendMessage(prompt, GENERATION_CONFIG);
 
             // Collect the response
             const modelResponse = await result.response.text();

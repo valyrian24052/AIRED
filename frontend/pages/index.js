@@ -59,13 +59,26 @@ export default function Home() {
         setUserInput('');
     
         try {
-            const response = await fetch('/api/runpython', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+            let response;
+            if (isActive) {
+                // Send request to assistant
+                response = await fetch('/api/assistant', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+            } else {
+                // Send request to runpython
+                response = await fetch('/api/runpython', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+            }
     
             const data = await response.json();
             if (response.ok) {
@@ -90,6 +103,7 @@ export default function Home() {
 
     const toggleSwitch = () => {
         setIsActive(!isActive);
+        
     };
 
     return (
@@ -118,12 +132,18 @@ export default function Home() {
                         <h1 className={styles.mainTitle}>Hi, I am AIRED</h1>
                         <p className={styles.subTitle}>How can I assist you</p>
                         <div className={styles.chatContainer}>
-                            <div className={styles.clickableText} onClick={() => handleTextClick('How can I assist you')}>
-                                How can I assist you
-                            </div>
-                            <div className={styles.clickableText} onClick={() => handleTextClick('How can I be of help today')}>
-                                How can I be of help today
-                            </div>
+                        <div 
+                            className={styles.clickableText} 
+                            onClick={() => handleTextClick(isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke')}
+                        >
+                            {isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke'}
+                        </div>
+                        <div 
+                            className={styles.clickableText} 
+                            onClick={() => handleTextClick(isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story')}
+                        >
+                            {isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story'}
+                        </div>
                             <div className={styles.inputContainer}>
                                 <input 
                                     type="text" 
@@ -160,12 +180,18 @@ export default function Home() {
                             <div ref={conversationEndRef} />
                         </div>
                         <div className={styles.chatContainer}>
-                            <div className={styles.clickableText} onClick={() => handleTextClick('How can I assist you')}>
-                                How can I assist you
-                            </div>
-                            <div className={styles.clickableText} onClick={() => handleTextClick('How can I be of help today')}>
-                                How can I be of help today
-                            </div>
+                        <div 
+                            className={styles.clickableText} 
+                            onClick={() => handleTextClick(isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke')}
+                        >
+                            {isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke'}
+                        </div>
+                        <div 
+                            className={styles.clickableText} 
+                            onClick={() => handleTextClick(isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story')}
+                        >
+                            {isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story'}
+                        </div>
                             <div className={styles.inputContainer}>
                                 <input 
                                     type="text" 
