@@ -5,7 +5,7 @@ import Send from '../utils/sendbutton.svg';
 import Head from 'next/head';
 
 export default function Home() {
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(true);
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
     
