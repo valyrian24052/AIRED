@@ -10,6 +10,7 @@
     z-index: 0; 
 }
 
+
 .container {
     position: relative;
     width: 100%;
@@ -158,6 +159,7 @@
     border: none;
     font-size: 16px;
     margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 .sendButton {
@@ -166,6 +168,7 @@
     border-radius: 5px;
     cursor: pointer;
     pointer-events: auto;
+    margin-bottom: 20px;
 }
 
 .sendButton img {

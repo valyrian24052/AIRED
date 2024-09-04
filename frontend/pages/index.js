@@ -101,6 +101,8 @@ export default function Home() {
         setUserInput(text);
     };
 
+    const title = isActive ? 'Valyrian assistant mode':'Chatbot Mode';
+
     const toggleSwitch = () => {
         setIsActive(!isActive);
         
@@ -130,7 +132,7 @@ export default function Home() {
                 {conversation.length === 0 ? (
                     <>
                         <h1 className={styles.mainTitle}>Hi, I am AIRED</h1>
-                        <p className={styles.subTitle}>How can I assist you</p>
+                        <p className={styles.subTitle}>{title}</p>
                         <div className={styles.chatContainer}>
                         <div 
                             className={styles.clickableText} 
