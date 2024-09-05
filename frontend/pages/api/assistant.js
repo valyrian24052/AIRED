@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         try {
             // Initialize the GoogleGenerativeAI client with the API key
             const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-001" });
 
             // Prepare the history for the chat model
             const formattedHistory = history.map(item => ({
