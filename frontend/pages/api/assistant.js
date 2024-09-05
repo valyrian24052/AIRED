@@ -1,3 +1,8 @@
+export const config = {
+    runtime: 'edge',
+  };
+  
+
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { SYSTEM_TEXT, GENERATION_CONFIG } from './generation_config';
 
