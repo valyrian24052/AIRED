@@ -11,9 +11,10 @@ export default function Home() {
     const [conversation, setConversation] = useState([]);
     const [loadingMessage, setLoadingMessage] = useState(''); 
     const conversationEndRef = useRef(null);
+    const inputRef = useRef(null); // Ref for input field
 
-    const clickableText1 = isActive ? 'Show me Shashank\'s key accomplishments.' : 'Tell me a Joke';
-    const clickableText2 = isActive ? 'Give me a comprehensive overview of his experiences.' : 'Tell me a Bed time story';
+    const clickableText1 = isActive ? 'Show me Shashank\'s key accomplishments' : 'Tell me a Joke';
+    const clickableText2 = isActive ? 'Give me a comprehensive overview of his experiences' : 'Tell me a Bed time story';
 
     useEffect(() => {
         if (conversationEndRef.current) {
@@ -76,7 +77,10 @@ export default function Home() {
         if (event.key === 'Enter') handleSend();
     };
 
-    const handleTextClick = (text) => setUserInput(text);
+    const handleTextClick = (text) => {
+        setUserInput(text);
+        inputRef.current.focus(); // Automatically focus the input field
+    };
 
     const title = isActive ? 'Valyrian assistant mode' : 'Chatbot Mode';
     const toggleSwitch = () => setIsActive(!isActive);
@@ -115,6 +119,7 @@ export default function Home() {
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
+                                    ref={inputRef} // Assign the ref to input
                                     type="text" 
                                     className={styles.input} 
                                     placeholder="Type your response..." 
@@ -155,6 +160,7 @@ export default function Home() {
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
+                                    ref={inputRef} // Assign the ref to input
                                     type="text" 
                                     className={styles.input} 
                                     placeholder="Type your response..." 
