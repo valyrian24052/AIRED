@@ -27,7 +27,12 @@ export default async function handler(req, res) {
             let result = await chat.sendMessage(userInput, GENERATION_CONFIG);
 
             // Collect the response
-            const modelResponse = await result.response.text();
+            let modelResponse = await result.response.text();
+            // Convert markdown-like formatting (** for bold, - for lists) to HTML
+            modelResponse = modelResponse.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');  // Bold text
+            modelResponse = modelResponse.replace(/- (.*?)(\n|$)/g, '<li>$1</li>'); // List items
+            modelResponse = modelResponse.replace(/\* /g, '<br/>');
+
 
             // Send the model's response back to the frontend
             res.status(200).json({ response: modelResponse });

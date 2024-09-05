@@ -3,13 +3,17 @@ import styles from '../styles/Home.module.css';
 import Logo from '../utils/logo.svg';
 import Send from '../utils/sendbutton.svg';
 import Head from 'next/head';
-import DOMPurify from 'dompurify';  // Add DOMPurify for security
+import DOMPurify from 'dompurify';
 
 export default function Home() {
     const [isActive, setIsActive] = useState(false);
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
+    const [loadingMessage, setLoadingMessage] = useState(''); 
     const conversationEndRef = useRef(null);
+
+    const clickableText1 = isActive ? 'Show me Shashank\'s key accomplishments.' : 'Tell me a Joke';
+    const clickableText2 = isActive ? 'Give me a comprehensive overview of his experiences.' : 'Tell me a Bed time story';
 
     useEffect(() => {
         if (conversationEndRef.current) {
@@ -24,76 +28,58 @@ export default function Home() {
 
         script.onload = () => {
             if (window.particlesJS) {
-                window.particlesJS.load('particles-js', '/particles-config.json', () => {});
+                window.particlesJS.load('particles-js', '/particles-config.json');
             }
         };
 
-        script.onerror = () => {
-            console.error('Failed to load particles.js script');
-        };
-
+        script.onerror = () => console.error('Failed to load particles.js script');
         document.body.appendChild(script);
     }, []);
 
     const handleSend = async () => {
         if (userInput.trim() === '') return;
     
-        const payload = {
-            history: [...conversation],
-            userInput: userInput    
-        };
-    
+        const payload = { history: [...conversation], userInput };
         const newConversation = [...conversation, { type: 'user', text: userInput }];
-    
         setConversation(newConversation);
         setUserInput('');
+        setLoadingMessage('Loading .');
+
+        let loadingInterval = setInterval(() => {
+            setLoadingMessage(prev => (prev === 'Loading . . .' ? 'Loading .' : prev + ' .'));
+        }, 500);
     
         try {
-            let response;
-            if (isActive) {
-                response = await fetch('/api/assistant', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-            } else {
-                response = await fetch('/api/runpython', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-            }
-    
+            const response = await fetch(isActive ? '/api/assistant' : '/api/runpython', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
             const data = await response.json();
+            clearInterval(loadingInterval);
+            setLoadingMessage('');
+
             if (response.ok) {
                 setConversation(prev => [...prev, { type: 'assistant', text: data.response }]);
             } else {
                 console.error(data.error);
             }
         } catch (error) {
+            clearInterval(loadingInterval);
+            setLoadingMessage('');
             console.error('Failed to fetch response from API:', error);
         }
     };
 
     const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSend();
-        }
+        if (event.key === 'Enter') handleSend();
     };
 
-    const handleTextClick = (text) => {
-        setUserInput(text);
-    };
+    const handleTextClick = (text) => setUserInput(text);
 
-    const title = isActive ? 'Valyrian assistant mode':'Chatbot Mode';
-
-    const toggleSwitch = () => {
-        setIsActive(!isActive);
-    };
+    const title = isActive ? 'Valyrian assistant mode' : 'Chatbot Mode';
+    const toggleSwitch = () => setIsActive(!isActive);
 
     return (
         <div id="particles-js" className={styles.container}>
@@ -121,17 +107,11 @@ export default function Home() {
                         <h1 className={styles.mainTitle}>Hi, I am AIRED</h1>
                         <p className={styles.subTitle}>{title}</p>
                         <div className={styles.chatContainer}>
-                            <div 
-                                className={styles.clickableText} 
-                                onClick={() => handleTextClick(isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke')}
-                            >
-                                {isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke'}
+                            <div className={styles.clickableText} onClick={() => handleTextClick(clickableText1)}>
+                                {clickableText1}
                             </div>
-                            <div 
-                                className={styles.clickableText} 
-                                onClick={() => handleTextClick(isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story')}
-                            >
-                                {isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story'}
+                            <div className={styles.clickableText} onClick={() => handleTextClick(clickableText2)}>
+                                {clickableText2}
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
@@ -146,11 +126,8 @@ export default function Home() {
                                     <img src={Send} alt="Send" />
                                 </button>
                             </div>
-                            <div 
-                                className={`${styles.toggleSwitchContainer} ${isActive ? styles.active : ''}`} 
-                                onClick={toggleSwitch}>
-                                <div className={`${styles.toggleSwitch} ${isActive ? styles.active : ''}`}>
-                                </div>
+                            <div className={`${styles.toggleSwitchContainer} ${isActive ? styles.active : ''}`} onClick={toggleSwitch}>
+                                <div className={`${styles.toggleSwitch} ${isActive ? styles.active : ''}`}></div>
                             </div>
                         </div>
                     </>
@@ -158,10 +135,7 @@ export default function Home() {
                     <>
                         <div className={styles.conversationContainer}>
                             {conversation.map((item, index) => (
-                                <div 
-                                    key={index} 
-                                    className={`${styles.conversationItem} ${item.type === 'user' ? styles.user : styles.assistant}`}
-                                >
+                                <div key={index} className={`${styles.conversationItem} ${item.type === 'user' ? styles.user : styles.assistant}`}>
                                     {item.type === 'assistant' ? (
                                         <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.text) }} />
                                     ) : (
@@ -169,21 +143,15 @@ export default function Home() {
                                     )}
                                 </div>
                             ))}
-                            {/* Ref to ensure scrolling to the last message */}
+                            {loadingMessage && <div className={styles.loadingMessage}>{loadingMessage}</div>}
                             <div ref={conversationEndRef} />
                         </div>
                         <div className={styles.chatContainer}>
-                            <div 
-                                className={styles.clickableText} 
-                                onClick={() => handleTextClick(isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke')}
-                            >
-                                {isActive ? 'List me Shashank\'s experiences' : 'Tell me a Joke'}
+                            <div className={styles.clickableText} onClick={() => handleTextClick(clickableText1)}>
+                                {clickableText1}
                             </div>
-                            <div 
-                                className={styles.clickableText} 
-                                onClick={() => handleTextClick(isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story')}
-                            >
-                                {isActive ? 'List me tech stacks Shashank is proficient in' : 'Tell me a Bed time story'}
+                            <div className={styles.clickableText} onClick={() => handleTextClick(clickableText2)}>
+                                {clickableText2}
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
@@ -198,11 +166,8 @@ export default function Home() {
                                     <img src={Send} alt="Send" />
                                 </button>
                             </div>
-                            <div 
-                                className={`${styles.toggleSwitchContainer} ${isActive ? styles.active : ''}`} 
-                                onClick={toggleSwitch}>
-                                <div className={`${styles.toggleSwitch} ${isActive ? styles.active : ''}`}>
-                                </div>
+                            <div className={`${styles.toggleSwitchContainer} ${isActive ? styles.active : ''}`} onClick={toggleSwitch}>
+                                <div className={`${styles.toggleSwitch} ${isActive ? styles.active : ''}`}></div>
                             </div>
                         </div>
                     </>
