@@ -4,6 +4,8 @@ import Logo from '../utils/logo.svg';
 import Send from '../utils/sendbutton.svg';
 import Head from 'next/head';
 import DOMPurify from 'dompurify';
+import MusicPlayer from '../components/MusicPlayer';
+import Link from 'next/link';
 
 export default function Home() {
     const [isActive, setIsActive] = useState(false);
@@ -11,7 +13,8 @@ export default function Home() {
     const [conversation, setConversation] = useState([]);
     const [loadingMessage, setLoadingMessage] = useState(''); 
     const conversationEndRef = useRef(null);
-    const inputRef = useRef(null); // Ref for input field
+    const inputRef = useRef(null); 
+    const clickSoundRef = useRef(null);
 
     const clickableText1 = isActive ? 'Show me Shashank\'s key accomplishments' : 'Tell me a Joke';
     const clickableText2 = isActive ? 'Give me a comprehensive overview of his experiences' : 'Tell me a Bed time story';
@@ -20,7 +23,8 @@ export default function Home() {
         if (conversationEndRef.current) {
             conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [conversation]);
+        clickSoundRef.current = new Audio('/click.wav');
+    }, []);
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -79,14 +83,19 @@ export default function Home() {
 
     const handleTextClick = (text) => {
         setUserInput(text);
-        inputRef.current.focus(); // Automatically focus the input field
+        inputRef.current.focus(); 
     };
 
     const title = isActive ? 'Valyrian assistant mode' : 'Chatbot Mode';
-    const toggleSwitch = () => setIsActive(!isActive);
+    const toggleSwitch = () => {
+        clickSoundRef.current.play();
+        setIsActive(!isActive);
+    };
 
     return (
+        
         <div id="particles-js" className={styles.container}>
+            <MusicPlayer />
             <Head>
                 <title>Valyrian's assistant</title>
                 <link rel="icon" href="/title.svg" type="image/svg+xml" />
@@ -101,6 +110,7 @@ export default function Home() {
                 />
                 <nav className={styles.nav}>
                     <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
+                    <Link href="/resume" className={styles.link}>Resume</Link>
                     <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Documents</a>
                     <a href="mailto:shashanksharma.1214@gmail.com" className={styles.link}>Connect</a>
                 </nav>
