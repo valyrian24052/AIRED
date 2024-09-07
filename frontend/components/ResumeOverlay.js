@@ -75,14 +75,18 @@ const ResumeOverlay = ({ isOpen, onClose }) => {
     <div className={styles.overlay}>
       <div className={styles.content}>
         <button className={styles.closeButton} onClick={onClose}>×</button>
+        <h1 className={styles.title}>Professional Experience</h1>
         <div className={styles.resumeContainer}>
           <div className={styles.experienceTree}>
             {experiences.map((exp, index) => (
               <div key={index} className={styles.experienceNode}>
                 <div className={styles.experienceContent}>
-                  <div className={styles.companyName}>{exp.company}</div>
+                  <div className={styles.header}>
+                    <div className={styles.companyName}>{exp.company}</div>
+                    <div className={styles.duration}>{exp.duration}</div>
+                  </div>
                   <div className={styles.role}>{exp.role}</div>
-                  <div className={styles.duration}>{exp.duration}</div>
+                  <div className={styles.location}>{exp.location}</div>
                   <div className={styles.details}>
                     {exp.details.map((detail, i) => (
                       <div key={i} className={styles.bullet}>{detail}</div>
