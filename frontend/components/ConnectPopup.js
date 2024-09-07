@@ -3,6 +3,11 @@ import styles from '../styles/ConnectPopup.module.css';
 
 const ConnectPopup = ({ isOpen, onClose }) => {
   const [isActive, setIsActive] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -13,12 +18,9 @@ const ConnectPopup = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsProcessing(true);
     try {
       const response = await fetch('/api/sendEmail', {
         method: 'POST',
@@ -29,14 +31,23 @@ const ConnectPopup = ({ isOpen, onClose }) => {
       });
       
       if (response.ok) {
-        alert('Message sent successfully!');
-        onClose();
+        setIsProcessing(false);
+        setIsSuccess(true);
+        // Reset form after 3 seconds and close popup
+        setTimeout(() => {
+          setName('');
+          setEmail('');
+          setMessage('');
+          setIsSuccess(false);
+          onClose();
+        }, 3000);
       } else {
-        alert('Failed to send message. Please try again.');
+        throw new Error('Failed to send message');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred. Please try again.');
+      setIsProcessing(false);
+      // Handle error if needed
     }
   };
 
@@ -49,29 +60,41 @@ const ConnectPopup = ({ isOpen, onClose }) => {
           <h2 className={styles.title}>HI! Thanks for reaching out.</h2>
           <p className={styles.subtitle}>I'll get back to you shortly.</p>
           <p className={styles.message}>Drop a short message about your visit here.</p>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <textarea
-              placeholder="Your Message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            ></textarea>
-            <button type="submit" className={styles.submitButton}>Send</button>
-          </form>
+          {!isSuccess ? (
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <textarea
+                placeholder="Your Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+              ></textarea>
+              <button type="submit" className={styles.submitButton} disabled={isProcessing}>
+                {isProcessing ? (
+                  <div className={styles.processingAnimation}>Sending<span className={styles.dots}>...</span></div>
+                ) : (
+                  'Send'
+                )}
+              </button>
+            </form>
+          ) : (
+            <div className={styles.successMessage}>
+              Message sent successfully!
+            </div>
+          )}
         </div>
         <button className={styles.closeButton} onClick={onClose}>×</button>
       </div>

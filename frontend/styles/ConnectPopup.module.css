@@ -110,11 +110,40 @@
     font-size: 1rem;
     font-weight: bold;
     transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px; /* Adjust this value as needed */
 }
 
 .submitButton:hover {
     background-color: #30A090;
     transform: scale(1.05);
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.processingAnimation {
+    display: inline-block;
+}
+
+.dots {
+    display: inline-block;
+    width: 20px;
+    text-align: left;
+    animation: dotAnimation 1.5s infinite;
+}
+
+@keyframes dotAnimation {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+    100% { content: ''; }
 }
 
 .closeButton {
@@ -159,4 +188,17 @@
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.successMessage {
+    color: #40E0D0;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

@@ -22,8 +22,8 @@ export default function Home() {
     const pingMeButtonRef = useRef(null);
 
     const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
-    const clickableText1 = isActive ? 'Tell me a Joke' : 'key accomplishments';
-    const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of his experiences';
+    const clickableText1 = isActive ? 'Tell me a Joke' : 'Key accomplishments';
+    const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of experiences';
 
     useEffect(() => {
         if (conversationEndRef.current) {
@@ -98,8 +98,6 @@ export default function Home() {
 
     const openPopup = (e) => {
         e.preventDefault();
-        const rect = pingMeButtonRef.current.getBoundingClientRect();
-        setButtonPosition({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
         setIsPopupOpen(true);
     };
 
@@ -202,7 +200,7 @@ export default function Home() {
                     </>
                 )}
             </main>
-            <ConnectPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} buttonPosition={buttonPosition} />
+            <ConnectPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
             <IntroText />
         </div>
     );

@@ -1,18 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
 #particles-js {
-    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0; 
+    z-index: -1; /* Ensure this is below other content */
 }
-
 
 .container {
     position: relative;
+    z-index: 1; /* Ensure this is above particles but below popup */
     width: 100%;
     height: 100%;
     font-family: 'Montserrat', sans-serif;
@@ -50,6 +47,7 @@
     transition: all 0.3s ease;
     padding: 5px;
     border-radius: 5px;
+    font-weight: 500;
 }
 
 .link:hover {
@@ -268,5 +266,4 @@
 .pingMeButton {
     animation: pulse 2s infinite;
 }
-
 
