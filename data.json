@@ -1,0 +1,116 @@
+{
+    "personal_info": {
+      "id": "1",
+      "name": "Shashank Sharma",
+      "email": "Shashanksharma.1214@gmail.com",
+      "location": "India",
+      "headline": "AI & Machine Learning Enthusiast | NLP Developer | Building the future with Deep Learning",
+      "linkedin": "https://www.linkedin.com/in/shashanksharma1214",
+      "github": "https://github.com/valyrian24052"
+    },
+    "experiences": [
+      {
+        "company": "Mrikal Studios",
+        "role": "Data Engineer",
+        "duration": "June 2024 - Present",
+        "location": "Gurugram, Haryana, India",
+        "details": [
+          "Developed Multi-Agent System for Voice-Based Flight Booking: Built a multi-agent architecture to handle inter-agent control flow and natural language processing for seamless flight booking.",
+          "Built Real-Time Project Health Monitoring Dashboard: Designed a dashboard leveraging SDLC data and predictive analytics to identify bottlenecks and ensure on-time project delivery.",
+          "Automated Unstructured Data Migration to Structured Warehouse: Developed a migration solution to transform unstructured NoSQL data into structured formats for analysis."
+        ],
+        "skills": ["Data Warehousing", "Cloud Computing", "Natural Language Processing", "NoSQL"]
+      },
+      {
+        "company": "Megaminds IT Services",
+        "role": "Machine Learning Engineer (Intern)",
+        "duration": "Sep 2023 - June 2024",
+        "location": "Remote",
+        "details": [
+          "Developed a machine learning-based intrusion detection system (IDS) for Controller Area Network (CAN) and Autonomous Vehicle networks.",
+          "Conducted research on model architecture methodologies, optimizing models to meet specific research objectives."
+        ],
+        "skills": ["Machine Learning", "NLP", "BERT", "Cloud Infrastructure"]
+      },
+      {
+        "company": "ShopUp",
+        "role": "Business Finance Intern",
+        "duration": "April 2023 - August 2023",
+        "location": "Bangalore, India",
+        "details": [
+          "Optimized revenue generation by developing and implementing standardized pricing SOPs, achieving a 5% revenue increase.",
+          "Streamlined MIS reporting by creating revenue and cost insight summaries to assist stakeholders in decision-making."
+        ],
+        "skills": ["Financial Analysis", "Project Management", "Stakeholder Engagement"]
+      },
+      {
+        "company": "Echo",
+        "role": "Machine Learning Engineer (Intern)",
+        "duration": "Feb 2023 - April 2023",
+        "location": "Mumbai, Maharashtra, India",
+        "details": [
+          "Led the design and implementation of an architecture for fine-tuning OpenAI LLMs on product reviews, generating actionable insights.",
+          "Developed a machine learning classification model for automatic review annotation, reducing manual annotation time by 90%."
+        ],
+        "skills": ["Machine Learning", "LLMs", "Product Review Analysis", "Cloud Infrastructure"]
+      },
+      {
+        "company": "Ignitus",
+        "role": "Machine Learning Researcher",
+        "duration": "Sep 2022 - Jan 2023",
+        "location": "Remote",
+        "details": [
+          "Implemented AWS infrastructures such as SageMaker and EC2 for collaborative model training.",
+          "Trained a Deep Learning model to develop a chatbot for career advisory services."
+        ],
+        "skills": ["Deep Learning", "AWS", "Model Training", "Chatbots"]
+      },
+      {
+        "company": "Abhyaz",
+        "role": "Data Analyst Intern",
+        "duration": "Aug 2022 - Oct 2022",
+        "location": "Remote",
+        "details": [
+          "Liaised with client service teams across various projects, ensuring effective communication.",
+          "Conducted data validation to ensure the accuracy and reliability of the data for further analysis."
+        ],
+        "skills": ["Data Validation", "Data Analysis", "Stakeholder Communication"]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Personalized Job Application Assistant",
+        "description": "Developed a personalized job application assistant powered by Meta Llama 3, fine-tuned with personal information to tailor cover letters and responses for job applications.",
+        "technologies": ["Meta Llama 3", "Ollama", "NLP"]
+      },
+      {
+        "name": "Medical Prescription Reader",
+        "description": "Developed an OCR system powered by Google Vertex Vision to accurately recognize medication names and dosages from prescriptions, improving healthcare workflows.",
+        "technologies": ["Google Vertex Vision", "OCR", "Machine Learning"]
+      }
+    ],
+    "education": [
+      {
+        "institution": "National Institute of Technology, Kurukshetra",
+        "degree": "Bachelor of Technology in Electrical Engineering",
+        "duration": "July 2020 - May 2024",
+        "location": "Kurukshetra, India",
+        "courses": ["Data Structures", "Artificial Intelligence", "Machine Learning", "Advanced Topics in Finance"]
+      }
+    ],
+    "skills": [
+      {
+        "category": "Programming Languages",
+        "skills": ["Python", "C++", "JavaScript", "SQL", "PostgreSQL"]
+      },
+      {
+        "category": "Frameworks & Tools",
+        "skills": ["TensorFlow", "Keras", "Scikit", "Django", "Flask", "AWS", "Azure"]
+      },
+      {
+        "category": "Other Skills",
+        "skills": ["Cloud Computing", "Workflow Automation", "MLOps", "Project Management", "Data Analysis"]
+      }
+    ]
+  }
+  

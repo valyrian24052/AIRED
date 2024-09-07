@@ -1,7 +1,41 @@
-
+import axios from 'axios';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { SYSTEM_TEXT, GENERATION_CONFIG } from './generation_config';
 
+// Function to fetch data from Zilliz
+async function fetchDataFromZilliz(query) {
+    const zillizUrl = "https://controller.api.gcp-us-west1.zillizcloud.com/v1/pipelines/pipe-1603107f0bf9a3d6c5a1a5/run";
+
+    const payload = {
+        "data": {
+          "query_text": {query}
+        },
+        "params": {
+          "limit": 1,
+          "offset": 0,
+          "outputFields": [],
+          "filter": "id >= 0"
+        }
+      };
+
+    try {
+        const response = await axios.post(zillizUrl, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.ZILLIZ_API_KEY}`  
+            }
+        });
+        
+
+        const resultText = response.data.data.result[0]?.text || '';  
+        return resultText;
+    } catch (error) {
+        console.error('Error retrieving data from Zilliz:', error);
+        throw new Error('Data retrieval from Zilliz failed');
+    }
+}
+
+// Your handler function
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { userInput, history } = req.body;
@@ -11,35 +45,40 @@ export default async function handler(req, res) {
         }
 
         try {
-            // Initialize the GoogleGenerativeAI client with the API key
+            
             const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-001" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-            // Prepare the history for the chat model
+            
             const formattedHistory = history.map(item => ({
                 role: item.type === 'user' ? 'user' : 'model',
                 parts: [{ text: item.text }]
             }));
 
-            // Start the chat with the history
+            
+            const dynamicContext = await fetchDataFromZilliz(userInput);
+
+            const contextMessage = {
+                role: 'user',
+                parts: [{ text: `${userInput} - Context: ${dynamicContext}` }]  
+            };
+
+            // console.log(contextMessage);
             const chat = model.startChat({
-                history: formattedHistory,
+                systemInstructions: SYSTEM_TEXT,  
+                history: [...formattedHistory, contextMessage],
+                cacheContext: true  
             });
 
+
             
-            const prompt = `System: ${SYSTEM_TEXT}\nUser: ${userInput}\nAssistant:`;
+            let result = await chat.sendMessage(userInput, GENERATION_CONFIG);
 
-            let result = await chat.sendMessage(prompt, GENERATION_CONFIG);
-
-            // Collect the response
             let modelResponse = await result.response.text();
-
-            // Convert markdown-like formatting (** for bold, - for lists) to HTML
-            modelResponse = modelResponse.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');  // Bold text
-            modelResponse = modelResponse.replace(/- (.*?)(\n|$)/g, '<li>$1</li>'); // List items
+            modelResponse = modelResponse.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');  
+            modelResponse = modelResponse.replace(/- (.*?)(\n|$)/g, '<li>$1</li>');
             modelResponse = modelResponse.replace(/\* /g, '<br/>');
 
-            // Send the model's response back to the frontend
             res.status(200).json({ response: modelResponse });
         } catch (error) {
             console.error(`Error executing AI model: ${error.message}`);
