@@ -120,8 +120,8 @@ export default function Home() {
                     style={{ cursor: 'pointer' }}
                 />
                 <nav className={styles.nav}>
+                    <button onClick={() => setIsResumeOpen(true)} className={styles.link}>Journey</button>
                     <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
-                    <button onClick={() => setIsResumeOpen(true)} className={styles.link}>Resume</button>
                     <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Documents</a>
                     <button onClick={openPopup} ref={pingMeButtonRef} className={styles.pingMeButton}>
                         <span className={styles.icon}>📡</span> Ping Me
