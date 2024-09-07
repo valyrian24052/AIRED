@@ -1,0 +1,127 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .content {
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 20px;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #40E0D0;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .resumeContainer {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+  }
+  
+  .experienceTree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .experienceNode {
+    width: 100%;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .experienceContent {
+    background: linear-gradient(135deg, rgba(64, 224, 208, 0.05), rgba(64, 224, 208, 0.02));
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    transition: all 0.3s ease;
+  }
+  
+  .experienceNode:hover .experienceContent {
+    background: linear-gradient(135deg, rgba(64, 224, 208, 0.1), rgba(64, 224, 208, 0.05));
+    transform: scale(1.05);
+  }
+  
+  .companyName {
+    color: #40E0D0;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+  }
+  
+  .role {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .duration {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .experienceNode:hover .details {
+    max-height: 500px;
+  }
+  
+  .bullet {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-top: 10px;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  .bullet::before {
+    content: '•';
+    color: #40E0D0;
+    position: absolute;
+    left: 0;
+  }
+  
+  /* Scrollbar styles */
+  .content::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .content::-webkit-scrollbar-thumb {
+    background: rgba(64, 224, 208, 0.5);
+    border-radius: 5px;
+  }
+  
+  .content::-webkit-scrollbar-thumb:hover {
+    background: rgba(64, 224, 208, 0.7);
+  }

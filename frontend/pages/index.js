@@ -8,6 +8,7 @@ import MusicPlayer from '../components/MusicPlayer';
 import Link from 'next/link';
 import ConnectPopup from '../components/ConnectPopup';
 import IntroText from '../components/IntroText';
+import ResumeOverlay from '../components/ResumeOverlay';
 
 export default function Home() {
     const [isActive, setIsActive] = useState(false); 
@@ -20,6 +21,7 @@ export default function Home() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
     const pingMeButtonRef = useRef(null);
+    const [isResumeOpen, setIsResumeOpen] = useState(false);
 
     const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
     const clickableText1 = isActive ? 'Tell me a Joke' : 'Key accomplishments';
@@ -119,7 +121,7 @@ export default function Home() {
                 />
                 <nav className={styles.nav}>
                     <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
-                    <Link href="/resume" className={styles.link}>Resume</Link>
+                    <button onClick={() => setIsResumeOpen(true)} className={styles.link}>Resume</button>
                     <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Documents</a>
                     <button onClick={openPopup} ref={pingMeButtonRef} className={styles.pingMeButton}>
                         <span className={styles.icon}>📡</span> Ping Me
@@ -140,7 +142,7 @@ export default function Home() {
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
-                                    ref={inputRef} // Assign the ref to input
+                                    ref={inputRef} 
                                     type="text" 
                                     className={styles.input} 
                                     placeholder="Type your response..." 
@@ -202,6 +204,7 @@ export default function Home() {
             </main>
             <ConnectPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
             <IntroText />
+            <ResumeOverlay isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
         </div>
     );
 }

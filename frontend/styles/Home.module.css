@@ -48,6 +48,9 @@
     padding: 5px;
     border-radius: 5px;
     font-weight: 500;
+    background: none; /* Add this line */
+    border: none; /* Add this line */
+    cursor: pointer; /* Add this line */
 }
 
 .link:hover {

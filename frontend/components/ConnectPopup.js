@@ -27,6 +27,7 @@ const ConnectPopup = ({ isOpen, onClose }) => {
           <form>
             <input type="text" placeholder="Your Name" required />
             <input type="email" placeholder="Your Email" required />
+            <input type="tel" placeholder="Your Phone Number" required /> {/* New phone number field */}
             <textarea placeholder="Your Message" required></textarea>
             <button type="submit" className={styles.submitButton}>Send</button>
           </form>
