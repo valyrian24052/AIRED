@@ -1,0 +1,36 @@
+.musicAnimation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    overflow: visible;
+    pointer-events: none;
+  }
+  
+  .note {
+    position: absolute;
+    bottom: 0;
+    font-size: 24px;
+    animation: floatUp 3s infinite;
+    transition: color 0.1s ease;
+  }
+  
+  .note1 { left: 0%; animation-delay: 0s; }
+  .note2 { left: 25%; animation-delay: 0.5s; }
+  .note3 { left: 50%; animation-delay: 1s; }
+  .note4 { left: 75%; animation-delay: 1.5s; }
+  
+  @keyframes floatUp {
+    0% {
+      bottom: 0;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      bottom: 100px;
+      opacity: 0;
+    }
+  }

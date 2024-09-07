@@ -6,18 +6,24 @@ import Head from 'next/head';
 import DOMPurify from 'dompurify';
 import MusicPlayer from '../components/MusicPlayer';
 import Link from 'next/link';
+import ConnectPopup from '../components/ConnectPopup';
+import IntroText from '../components/IntroText';
 
 export default function Home() {
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(false); 
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
     const [loadingMessage, setLoadingMessage] = useState(''); 
     const conversationEndRef = useRef(null);
     const inputRef = useRef(null); 
     const clickSoundRef = useRef(null);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+    const pingMeButtonRef = useRef(null);
 
-    const clickableText1 = isActive ? 'Show me Shashank\'s key accomplishments' : 'Tell me a Joke';
-    const clickableText2 = isActive ? 'Give me a comprehensive overview of his experiences' : 'Tell me a Bed time story';
+    const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
+    const clickableText1 = isActive ? 'Tell me a Joke' : 'key accomplishments';
+    const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of his experiences';
 
     useEffect(() => {
         if (conversationEndRef.current) {
@@ -55,7 +61,7 @@ export default function Home() {
         }, 500);
     
         try {
-            const response = await fetch(isActive ? '/api/assistant' : '/api/runpython', {
+            const response = await fetch(isActive ? '/api/runpython' : '/api/assistant', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -86,10 +92,15 @@ export default function Home() {
         inputRef.current.focus(); 
     };
 
-    const title = isActive ? 'Valyrian assistant mode' : 'Chatbot Mode';
     const toggleSwitch = () => {
-        clickSoundRef.current.play();
         setIsActive(!isActive);
+    };
+
+    const openPopup = (e) => {
+        e.preventDefault();
+        const rect = pingMeButtonRef.current.getBoundingClientRect();
+        setButtonPosition({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+        setIsPopupOpen(true);
     };
 
     return (
@@ -112,7 +123,9 @@ export default function Home() {
                     <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
                     <Link href="/resume" className={styles.link}>Resume</Link>
                     <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Documents</a>
-                    <a href="mailto:shashanksharma.1214@gmail.com" className={styles.link}>Connect</a>
+                    <button onClick={openPopup} ref={pingMeButtonRef} className={styles.pingMeButton}>
+                        <span className={styles.icon}>📡</span> Ping Me
+                    </button>
                 </nav>
             </header>
             <main className={styles.main}>
@@ -189,6 +202,8 @@ export default function Home() {
                     </>
                 )}
             </main>
+            <ConnectPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} buttonPosition={buttonPosition} />
+            <IntroText />
         </div>
     );
 }

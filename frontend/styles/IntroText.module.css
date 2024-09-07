@@ -1,0 +1,116 @@
+.introContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px; /* Adjust as needed */
+    z-index: 100;
+    transition: all 0.3s ease;
+  }
+  
+  .introContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.3); /* Increased shadow on hover */
+  }
+  
+  .introContent {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    pointer-events: auto;
+    background: linear-gradient(135deg, rgba(64, 224, 208, 0.05), rgba(64, 224, 208, 0.02)); /* Increased transparency */
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+  
+  .introContainer:hover .introContent {
+    background: linear-gradient(135deg, rgba(64, 224, 208, 0.1), rgba(64, 224, 208, 0.05)); /* Slightly more opaque on hover */
+    transform: scale(1.05);
+  }
+  
+  .introText {
+    color: rgba(255, 255, 255, 0.9); /* Slightly transparent white text */
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(64, 224, 208, 0.3); /* Reduced text shadow */
+    text-align: left;
+  }
+  
+  .introText strong {
+    color: rgba(64, 224, 208, 0.9); /* Slightly transparent accent color */
+    font-weight: bold;
+  }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .introContent::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(64, 224, 208, 0.3), rgba(255, 0, 255, 0.3), rgba(0, 255, 0, 0.3), rgba(64, 224, 208, 0.3));
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.3; /* Reduced opacity */
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    border-radius: 17px;
+  }
+  
+  /* Scrollbar styling for webkit browsers */
+  .introText::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .introText::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .introText::-webkit-scrollbar-thumb {
+    background: #40E0D0;
+    border-radius: 3px;
+  }
+  
+  .auroraEffect {
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at bottom right,
+      rgba(64, 224, 208, 0.3) 0%,
+      rgba(64, 224, 208, 0.2) 20%,
+      rgba(64, 224, 208, 0.1) 40%,
+      rgba(64, 224, 208, 0.05) 60%,
+      transparent 70%
+    );
+    filter: blur(30px);
+    animation: pulse 8s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
