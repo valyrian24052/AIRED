@@ -14,25 +14,46 @@ export default function Home() {
     const [isActive, setIsActive] = useState(false); 
     const [userInput, setUserInput] = useState('');
     const [conversation, setConversation] = useState([]);
-    const [loadingMessage, setLoadingMessage] = useState(''); 
+    const [loadingMessage, setLoadingMessage] = useState('');
     const conversationEndRef = useRef(null);
     const inputRef = useRef(null); 
     const clickSoundRef = useRef(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+    const [scrollKey, setScrollKey] = useState(0);
     const pingMeButtonRef = useRef(null);
     const [isResumeOpen, setIsResumeOpen] = useState(false);
 
     const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
     const clickableText1 = isActive ? 'Tell me a Joke' : 'Key accomplishments';
     const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of experiences';
-
+    
     useEffect(() => {
         if (conversationEndRef.current) {
-            conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            requestAnimationFrame(() => {
+                conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            });
         }
-        clickSoundRef.current = new Audio('/click.wav');
-    }, []);
+    }, [scrollKey]); 
+
+
+    useEffect(() => {
+        if (clickSoundRef.current === null) {
+            clickSoundRef.current = new Audio('/click.wav'); 
+        }
+    }, []); 
+    
+    useEffect(() => {
+        let interval;
+        if (loadingMessage) {
+            let dots = 0;
+            interval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                setLoadingMessage(`Loading${'.'.repeat(dots)}`);
+            }, 500);
+        }
+        return () => clearInterval(interval);
+    }, [loadingMessage]);
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -51,39 +72,67 @@ export default function Home() {
 
     const handleSend = async () => {
         if (userInput.trim() === '') return;
-    
-        const payload = { history: [...conversation], userInput };
-        const newConversation = [...conversation, { type: 'user', text: userInput }];
-        setConversation(newConversation);
-        setUserInput('');
-        setLoadingMessage('Loading .');
 
-        let loadingInterval = setInterval(() => {
-            setLoadingMessage(prev => (prev === 'Loading . . .' ? 'Loading .' : prev + ' .'));
-        }, 500);
-    
+        const newUserMessage = { type: 'user', text: userInput };
+        setConversation(prev => [...prev, newUserMessage]);
+        const currentInput = userInput;
+        setUserInput('');
+
+        setLoadingMessage('Loading'); // Set loading message
+
+        const apiEndpoint = isActive ? '/api/runpython' : '/api/assistant';
+
         try {
-            const response = await fetch(isActive ? '/api/runpython' : '/api/assistant', {
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                body: JSON.stringify({ userInput: currentInput, history: conversation }),
             });
 
-            const data = await response.json();
-            clearInterval(loadingInterval);
-            setLoadingMessage('');
-
-            if (response.ok) {
-                setConversation(prev => [...prev, { type: 'assistant', text: data.response }]);
-            } else {
-                console.error(data.error);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error}`);
             }
+
+            const data = await response.json();
+            if (!data.content) {
+                throw new Error('Response does not contain expected content');
+            }
+
+            const formattedResponse = data.content;
+
+            setConversation(prev => [...prev, { type: 'assistant', text: '' }]); // Add an empty assistant message to start streaming
+            setLoadingMessage(''); // Clear loading message
+
+            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+            const streamDelay = () => Math.random() * 5; // Random delay between 0ms and 10ms
+
+            let displayedResponse = '';
+            for (let char of formattedResponse) {
+                displayedResponse += char;
+                await delay(streamDelay());
+                setConversation(prev => [
+                    ...prev.slice(0, -1),
+                    { type: 'assistant', text: displayedResponse }
+                ]);
+
+                // Trigger re-render by updating scrollKey
+                setScrollKey(prevKey => prevKey + 1);
+            }
+
         } catch (error) {
-            clearInterval(loadingInterval);
-            setLoadingMessage('');
             console.error('Failed to fetch response from API:', error);
+            let errorMessage = `An error occurred while processing your request: ${error.message}`;
+            
+            if (error.message.includes('429')) {
+                errorMessage = "Too many frequent requests. Let me rest a bit :)";
+            }
+            
+            setConversation(prev => [...prev, { type: 'assistant', text: errorMessage }]);
+            setLoadingMessage(''); // Clear loading message
         }
     };
+    
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') handleSend();
@@ -184,7 +233,7 @@ export default function Home() {
                             </div>
                             <div className={styles.inputContainer}>
                                 <input 
-                                    ref={inputRef} // Assign the ref to input
+                                    ref={inputRef} 
                                     type="text" 
                                     className={styles.input} 
                                     placeholder="Type your response..." 

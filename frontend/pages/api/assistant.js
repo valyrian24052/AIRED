@@ -1,14 +1,13 @@
 import axios from 'axios';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { SYSTEM_TEXT, GENERATION_CONFIG } from './generation_config';
 
-// Function to fetch data from Zilliz
+// Function to fetch data from Zilliz (unchanged)
 async function fetchDataFromZilliz(query) {
     const zillizUrl = "https://controller.api.gcp-us-west1.zillizcloud.com/v1/pipelines/pipe-1603107f0bf9a3d6c5a1a5/run";
 
     const payload = {
         "data": {
-          "query_text": {query}
+          "query_text": query
         },
         "params": {
           "limit": 1,
@@ -16,73 +15,92 @@ async function fetchDataFromZilliz(query) {
           "outputFields": [],
           "filter": "id >= 0"
         }
-      };
+    };
 
     try {
         const response = await axios.post(zillizUrl, payload, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.ZILLIZ_API_KEY}`  
+                'Authorization': `Bearer ${process.env.ZILLIZ_API_KEY}`
             }
         });
         
-
-        const resultText = response.data.data.result[0]?.text || '';  
+        const resultText = response.data.data.result[0]?.text || '';
         return resultText;
     } catch (error) {
-        console.error('Error retrieving data from Zilliz:', error);
         throw new Error('Data retrieval from Zilliz failed');
+    }
+}
+
+// Function to format the response
+function formatResponse(text) {
+    // Replace double asterisks for bold text
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+    // Replace numbered list pattern for list items
+    formattedText = formattedText.replace(/(\d+)\. (.*?)(\n|$)/g, '<li><b>$1.</b> $2</li>');
+
+    // Ensure line breaks
+    formattedText = formattedText.replace(/\n/g, '<br/>');
+
+    return formattedText;
+}
+
+// Function to call OpenAI API and format the response
+async function fetchOpenAIResponse(userInput, dynamicContext, res) {
+    const openaiUrl = 'https://api.openai.com/v1/chat/completions';
+
+    const payload = {
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: SYSTEM_TEXT
+            },
+            {
+                role: "user",
+                content: `${userInput} - Context: ${dynamicContext}`
+            }
+        ],
+        stop: null,
+        max_tokens: 2048
+    };
+
+    try {
+        const response = await axios.post(openaiUrl, payload, {
+            headers: {
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const aiResponse = response.data.choices[0].message.content;
+        const formattedResponse = formatResponse(aiResponse);
+        res.json({ content: formattedResponse });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to generate response from OpenAI model' });
     }
 }
 
 // Your handler function
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { userInput, history } = req.body;
+        const { userInput } = req.body;
 
         if (!userInput) {
             return res.status(400).json({ error: 'User input is required' });
         }
 
         try {
-            
-            const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-
-            
-            const formattedHistory = history.map(item => ({
-                role: item.type === 'user' ? 'user' : 'model',
-                parts: [{ text: item.text }]
-            }));
-
-            
+            // Fetch dynamic context from Zilliz
             const dynamicContext = await fetchDataFromZilliz(userInput);
 
-            const contextMessage = {
-                role: 'user',
-                parts: [{ text: `${userInput} - Context: ${dynamicContext}` }]  
-            };
+            // Fetch response from OpenAI, format it, and send it to the client
+            await fetchOpenAIResponse(userInput, dynamicContext, res);
 
-            // console.log(contextMessage);
-            const chat = model.startChat({
-                systemInstructions: SYSTEM_TEXT,  
-                history: [...formattedHistory, contextMessage],
-                cacheContext: true  
-            });
-
-
-            
-            let result = await chat.sendMessage(userInput, GENERATION_CONFIG);
-
-            let modelResponse = await result.response.text();
-            modelResponse = modelResponse.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');  
-            modelResponse = modelResponse.replace(/- (.*?)(\n|$)/g, '<li>$1</li>');
-            modelResponse = modelResponse.replace(/\* /g, '<br/>');
-
-            res.status(200).json({ response: modelResponse });
         } catch (error) {
-            console.error(`Error executing AI model: ${error.message}`);
-            res.status(500).json({ error: 'Failed to generate response from AI model' });
+            res.status(500).json({ error: `Failed to generate response from AI model: ${error.message}` });
         }
     } else {
         res.status(405).json({ error: 'Only POST requests are allowed' });
