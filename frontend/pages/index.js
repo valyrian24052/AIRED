@@ -28,13 +28,13 @@ export default function Home() {
     const clickableText1 = isActive ? 'Tell me a Joke' : 'Key accomplishments';
     const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of experiences';
     
-    useEffect(() => {
-        if (conversationEndRef.current) {
-            requestAnimationFrame(() => {
-                conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
-            });
-        }
-    }, [scrollKey]); 
+    // useEffect(() => {
+    //     if (conversationEndRef.current) {
+    //         requestAnimationFrame(() => {
+    //             conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    //         });
+    //     }
+    // }, [scrollKey]); 
 
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export default function Home() {
         if (loadingMessage) {
             let dots = 0;
             interval = setInterval(() => {
-                dots = (dots + 1) % 4;
+                dots = (dots + 1) % 5;
                 setLoadingMessage(`Loading${'.'.repeat(dots)}`);
             }, 500);
         }
@@ -111,13 +111,14 @@ export default function Home() {
             for (let char of formattedResponse) {
                 displayedResponse += char;
                 await delay(streamDelay());
+                conversationEndRef.current.scrollIntoView({ behavior: 'smooth' })
                 setConversation(prev => [
                     ...prev.slice(0, -1),
                     { type: 'assistant', text: displayedResponse }
                 ]);
 
                 // Trigger re-render by updating scrollKey
-                setScrollKey(prevKey => prevKey + 1);
+                
             }
 
         } catch (error) {
