@@ -25,8 +25,8 @@ export default function Home() {
     const [isResumeOpen, setIsResumeOpen] = useState(false);
 
     const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
-    const clickableText1 = isActive ? 'Tell me a Joke' : 'Key accomplishments';
-    const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Overview of experiences';
+    const clickableText1 = isActive ? 'Tell me a Joke' : 'Tell me his Key accomplishments';
+    const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Give me a brief Overview of his experiences';
     
     // useEffect(() => {
     //     if (conversationEndRef.current) {
@@ -196,7 +196,7 @@ export default function Home() {
                                     ref={inputRef} 
                                     type="text" 
                                     className={styles.input} 
-                                    placeholder="Type your response..." 
+                                    placeholder="Ask me anything about Shashank..." 
                                     value={userInput}
                                     onChange={(e) => setUserInput(e.target.value)}
                                     onKeyPress={handleKeyPress} 
