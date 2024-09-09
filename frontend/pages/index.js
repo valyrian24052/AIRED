@@ -28,15 +28,11 @@ export default function Home() {
     const clickableText1 = isActive ? 'Tell me a Joke' : 'Tell me his Key accomplishments';
     const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Give me a brief Overview of his experiences';
     
-    // useEffect(() => {
-    //     if (conversationEndRef.current) {
-    //         requestAnimationFrame(() => {
-    //             conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    //         });
-    //     }
-    // }, [scrollKey]); 
-
-
+    const scrollToBottom = () => {
+        const container = document.getElementById('messageContainer');
+        container.scrollTop = container.scrollHeight;
+    };
+    
     useEffect(() => {
         if (clickSoundRef.current === null) {
             clickSoundRef.current = new Audio('/click.wav'); 
@@ -111,14 +107,13 @@ export default function Home() {
             for (let char of formattedResponse) {
                 displayedResponse += char;
                 await delay(streamDelay());
-                conversationEndRef.current.scrollIntoView({ behavior: 'smooth' })
                 setConversation(prev => [
                     ...prev.slice(0, -1),
                     { type: 'assistant', text: displayedResponse }
                 ]);
-
-                // Trigger re-render by updating scrollKey
                 
+                // Scroll to bottom during async delay loop
+                scrollToBottom();
             }
 
         } catch (error) {
@@ -130,7 +125,7 @@ export default function Home() {
             }
             
             setConversation(prev => [...prev, { type: 'assistant', text: errorMessage }]);
-            setLoadingMessage(''); // Clear loading message
+            setLoadingMessage(''); 
         }
     };
     
@@ -212,7 +207,7 @@ export default function Home() {
                     </>
                 ) : (
                     <>
-                        <div className={styles.conversationContainer}>
+                        <div className={styles.conversationContainer} id="messageContainer">
                             {conversation.map((item, index) => (
                                 <div key={index} className={`${styles.conversationItem} ${item.type === 'user' ? styles.user : styles.assistant}`}>
                                     {item.type === 'assistant' ? (
