@@ -1,0 +1,97 @@
+.container {
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0; /* Ensure no margin */
+    padding: 0; /* Ensure no padding */
+    overflow: hidden; /* Ensure no overflow */
+}
+
+.bigBubble, .smallBubble, .mediumBubble {
+    border-radius: 50%;
+    position: absolute;
+    transition: transform 0.3s ease;
+}
+
+.bigBubble {
+    background: linear-gradient(145deg, #00c6ff, #0072ff);
+    width: 200px;
+    height: 200px;
+    top: 40%;
+    left: 50%; /* Shifted to the right */
+}
+
+.mediumBubble {
+    background: linear-gradient(145deg, #00c6ff, #0072ff);
+    width: 120px;
+    height: 120px;
+    top: 30%;
+    left: 70%; /* Shifted to the right */
+    animation: float 8s ease-in-out infinite;
+}
+
+.smallBubble {
+    background: linear-gradient(145deg, #00c6ff, #0072ff);
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 65%; /* Shifted to the right */
+    animation: float 6s ease-in-out infinite;
+}
+
+.smallBubble:hover, .mediumBubble:hover, .bigBubble:hover {
+    transform: scale(1.1) translateY(-10px) rotate(10deg);
+    animation: wiggle 0.5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Additional bubbles with different colors */
+.bubble1 {
+    background: linear-gradient(145deg, #ff6a00, #ee0979);
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 60%; /* Shifted to the right */
+    animation: float 7s ease-in-out infinite;
+}
+
+.bubble2 {
+    background: linear-gradient(145deg, #00ff87, #0093e9);
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 50%; /* Shifted to the right */
+    animation: float 9s ease-in-out infinite;
+}
+
+.bubble3 {
+    background: linear-gradient(145deg, #ff00ff, #ff007f);
+    width: 90px;
+    height: 90px;
+    top: 70%;
+    left: 70%; /* Shifted to the right */
+    animation: float 5s ease-in-out infinite;
+}

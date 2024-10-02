@@ -57,7 +57,7 @@ const experiences = [
       ]
     },
     {
-      company: "Abhyaz",
+      company: "Mtab Technologies",
       role: "Data Analyst Intern",
       duration: "Aug 2022 - Oct 2022 · 3 mos",
       location: "Remote",
