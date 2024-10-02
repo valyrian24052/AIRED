@@ -3,7 +3,7 @@ import styles from '../styles/ResumeOverlay.module.css';
 
 const experiences = [
     {
-      company: "Mrikal",
+      company: "Mrikal Studios",
       role: "Data Engineer",
       duration: "Jun 2024 - Present · 4 mos",
       location: "Gurugram, Haryana, India · On-site",
