@@ -165,7 +165,6 @@ export default function Home() {
                     style={{ cursor: 'pointer' }}
                 />
                 <nav className={styles.nav}>
-                    <button onClick={() => setIsResumeOpen(true)} className={styles.link}>Journey</button>
                     <a href="https://github.com/valyrian24052" className={styles.link}>Github</a>
                     <a href="https://www.linkedin.com/in/shashanksharma1214/" className={styles.link}>LinkedIn</a>
                     <a href="https://github.com/valyrian24052/Portfolio" className={styles.link}>Docs</a>
