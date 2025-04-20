@@ -25,6 +25,7 @@ export default function Home() {
     const [isResumeOpen, setIsResumeOpen] = useState(false);
 
     const title = isActive ? 'Chatbot Mode' : 'Valyrian assistant mode';
+    const place = isActive ? 'How can i help you?' : "Ask me anything about Shashank..." ;
     const clickableText1 = isActive ? 'Tell me a Joke' : 'Tell me his Key accomplishments';
     const clickableText2 = isActive ? 'Tell me a Bed time story' : 'Give me a brief Overview of his experiences';
     
@@ -97,11 +98,11 @@ export default function Home() {
 
             const formattedResponse = data.content;
 
-            setConversation(prev => [...prev, { type: 'assistant', text: '' }]); // Add an empty assistant message to start streaming
-            setLoadingMessage(''); // Clear loading message
+            setConversation(prev => [...prev, { type: 'assistant', text: '' }]); 
+            setLoadingMessage(''); 
 
             const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-            const streamDelay = () => Math.random() * 5; // Random delay between 0ms and 10ms
+            const streamDelay = () => Math.random() * 5; 
 
             let displayedResponse = '';
             for (let char of formattedResponse) {
@@ -112,7 +113,6 @@ export default function Home() {
                     { type: 'assistant', text: displayedResponse }
                 ]);
                 
-                // Scroll to bottom during async delay loop
                 scrollToBottom();
             }
 
@@ -191,7 +191,7 @@ export default function Home() {
                                     ref={inputRef} 
                                     type="text" 
                                     className={styles.input} 
-                                    placeholder="Ask me anything about Shashank..." 
+                                    placeholder={place}
                                     value={userInput}
                                     onChange={(e) => setUserInput(e.target.value)}
                                     onKeyPress={handleKeyPress} 
