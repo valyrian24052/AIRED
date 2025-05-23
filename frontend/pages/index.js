@@ -248,7 +248,6 @@ export default function Home() {
                 )}
             </main>
             <ConnectPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-            <IntroText />
             <ResumeOverlay isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
         </div>
     );
