@@ -20,7 +20,7 @@ const MusicPlayer = () => {
       const newPlayer = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: 'jfKfPfyJRdk',
+        videoId: 'CLeZyIID9Bo',
         playerVars: {
           autoplay: 0,
           controls: 0,
