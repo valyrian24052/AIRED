@@ -41,20 +41,22 @@
 }
 
 .link {
-    color: #ffffff; 
+    color: #f6f6f6b7;
     text-decoration: none;
     font-size: 1.2rem;
+    font-weight: bold;
     transition: all 0.3s ease;
     padding: 5px;
     border-radius: 5px;
     font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
     background: none; /* Add this line */
     border: none; /* Add this line */
     cursor: pointer; /* Add this line */
 }
 
 .link:hover {
-    color: #40E0D0; 
+    color: #a4fdffb3; 
     transform: scale(1.1); 
 }
 
@@ -147,7 +149,7 @@
 
 .conversationItem.assistant {
     text-align: left;
-    color: turquoise;
+    color: rgba(249, 247, 196, 0.738); 
 }
 
 .inputContainer {
@@ -224,15 +226,14 @@
     text-align: left; 
     padding: 10px;
     margin-left: 0; 
-    color: turquoise; 
-    font-style: italic;
+    color: rgb(196, 195, 108); 
     font-family: 'Montserrat', sans-serif;
 }
 
 .pingMeButton {
-    background-color: rgba(64, 224, 208, 0.2);
-    color: #40E0D0;
-    border: 2px solid #40E0D0;
+    background-color: rgba(64, 224, 208, 0);
+    color: #f6f6f6b7;
+    border: 2px solid #c4f7f200;
     border-radius: 30px;
     padding: 10px 20px;
     font-size: 1rem;
@@ -246,7 +247,7 @@
 }
 
 .pingMeButton:hover {
-    background-color: rgba(64, 224, 208, 0.4);
+    background-color: rgba(226, 255, 252, 0);
     transform: scale(1.05);
 }
 
@@ -256,7 +257,7 @@
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(64, 224, 208, 0.4);
+        box-shadow: 0 0 0 0 rgba(151, 221, 214, 0.714);
     }
     70% {
         box-shadow: 0 0 0 10px rgba(64, 224, 208, 0);
@@ -269,4 +270,3 @@
 .pingMeButton {
     animation: pulse 2s infinite;
 }
-
